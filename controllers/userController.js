@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
+const jwt = require("../config/jwt")
 
 exports.registerUser = async (req, res) => {
     console.log("user controller  entered ")
@@ -74,20 +75,11 @@ exports.loginUser = async (req, res) => {
 
       }
 
-      function generateToken(user) {
-        const payload = {
-          userId: user.id,
-          email: user.email,
-          type:user.type,
-          name:user.fname
-          // Add other claims as needed
-        };
-        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '60' }); // Adjust expiration time
-        return token;
-      }
-  
+     
+        const token = jwt.generateToken(user)
+        console.log("token created " + token )
       res.status(200).json({ 
-   status: 'success', message: 'Login successful' });
+   status: 'success', message: 'Login successful',token });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Server error' });
