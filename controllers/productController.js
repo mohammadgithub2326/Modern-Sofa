@@ -5,12 +5,12 @@ console.log("entered the product controller ")
 exports.addProduct = async (req, res) => {
     console.log("addMethod entered")
     const { images, productDescription, categories, addedBy } = await req.body;
-    console.log( "this is a request body "+ req.body.addedBy)
+    console.log( "this is a request body "+ req.body.images)
 
     try {
         const user = await User.findById(addedBy);
-
         if (!user ) {
+            console.log("user found " + user.fname)
             return res.status(403).json({ status: 'fail', message: 'user not found' });
         }
         if(user.type !== 'admin')
