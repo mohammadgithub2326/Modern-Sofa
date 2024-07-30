@@ -10,8 +10,12 @@ exports.addProduct = async (req, res) => {
     try {
         const user = await User.findById(addedBy);
 
-        if (!user || user.type !== 'admin') {
-            return res.status(403).json({ status: 'fail', message: 'Only admin can add products' });
+        if (!user ) {
+            return res.status(403).json({ status: 'fail', message: 'user not found' });
+        }
+        if(user.type !== 'admin')
+        {
+            return res.status(403).json({ status: 'fail', message: 'only admin can add products' });
         }
 
         const newProduct = new Product({ images, productDescription, categories, addedBy });
