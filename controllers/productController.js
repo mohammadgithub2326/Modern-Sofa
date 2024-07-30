@@ -8,7 +8,7 @@ exports.addProduct = async (req, res) => {
     console.log(req.body)
 
     try {
-        const user = await User.findById(String(addedBy));
+        const user = await User.findById(addedBy);
 
         if (!user ) {
             return res.status(403).json({ status: 'fail', message: 'user not found' });
