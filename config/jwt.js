@@ -7,6 +7,6 @@ exports.generateToken = (user) => {
       name:user.fname
       // Add other claims as needed
     };
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '60' }); // Adjust expiration time
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '10h' }); // Adjust expiration time
     return token;
   };
