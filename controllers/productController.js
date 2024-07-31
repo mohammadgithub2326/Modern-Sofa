@@ -47,7 +47,7 @@ exports.updateProduct = async (req, res) => {
         // Update only provided fields
         if (images) product.images = images;
         if (productDescription) product.productDescription = productDescription;
-        if (categories) product.categories = categories;
+        if (category) product.category = category;
 
         await product.save();
 
@@ -97,6 +97,7 @@ exports.getAllProducts = async (req, res) => {
             message: 'Products successfully fetched',
             data: products
         });
+        console.log(products)
     } catch (error) {
         console.error('Error fetching products:', error);
         res.status(500).json({ status: 'fail', message: 'Server error', error: error.message });
