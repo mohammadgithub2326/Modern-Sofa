@@ -4,7 +4,7 @@ console.log("entered the product controller ")
 
 exports.addProduct = async (req, res) => {
     console.log("addMethod entered")
-    const { images, productDescription, categories, addedBy } = await req.body;
+    const { images, productDescription, category, addedBy } = await req.body;
     console.log( "this is a request body "+ req.body.images)
 
     try {
