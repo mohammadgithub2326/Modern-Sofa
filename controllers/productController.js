@@ -18,7 +18,7 @@ exports.addProduct = async (req, res) => {
             return res.status(403).json({ status: 'fail', message: 'only admin can add products' });
         }
 
-        const newProduct = new Product({ images, productDescription, categories, addedBy });
+        const newProduct = new Product({ images, productDescription, category, addedBy });
 
         await newProduct.save();
 

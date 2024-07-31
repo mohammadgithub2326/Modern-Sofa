@@ -12,18 +12,18 @@ const productSchema = new mongoose.Schema({
     },
     categories: {
         type: String,
-        enum: [
-           " Recliner sofa Manual,RRR,Motorized",
-            'L shape sofa set',
-            'Launcher sofa',
-            'Cum bed sofa',
-            '3+1+1 sofa',
-            'Wing chair',
-            'T pie and stool',
-            'Bed dashboards',
-            'Dining set table and chairs',
-            'Bed cushions'
-        ],
+        // enum: [
+        //    " Recliner sofa Manual,RRR,Motorized",
+        //     'L shape sofa set',
+        //     'Launcher sofa',
+        //     'Cum bed sofa',
+        //     '3+1+1 sofa',
+        //     'Wing chair',
+        //     'T pie and stool',
+        //     'Bed dashboards',
+        //     'Dining set table and chairs',
+        //     'Bed cushions'
+        // ],
         required: true
     },
     addedBy: {
