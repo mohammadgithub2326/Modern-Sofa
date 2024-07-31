@@ -103,3 +103,23 @@ exports.getAllProducts = async (req, res) => {
         res.status(500).json({ status: 'fail', message: 'Server error', error: error.message });
     }
 };
+
+exports.getProductById = async (req, res) => {
+    console.log("entered the getproduct method")
+    try {
+        const { productId } = req.body;
+        console.log(productId)
+        if (!productId) {
+            return res.status(400).json({ message: 'Product ID is required' });
+        }
+
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        res.status(200).json(product);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error });
+    }
+};

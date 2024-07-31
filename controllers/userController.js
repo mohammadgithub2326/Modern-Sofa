@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
-const jwt = require("../config/jwt")
+const jwt = require("../utils/jwt")
 
 exports.registerUser = async (req, res) => {
     console.log("user controller  entered ")
@@ -54,33 +54,47 @@ const sendAdminNotification = (email) => {
         }
     });
 };
+
+//controller for login
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
-  
+
+        //finding user by email
     try {
       const user = await User.findOne({ email });
-  
+        
       if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+        return res.status(404).json({ message: 'User not found  please register first' });
         console.log("usernot found")
       }
       console.log("user found")
+
+      //matching the password
       const isMatch = await bcrypt.compare(password, user.password);
       console.log("comparing the password "+ "enteredpassword " +password + " storedpassword " +user.password)
-  
       if (!isMatch) {
-
           console.log("password miss  match")
         return res.status(401).json({ message: 'Invalid  credentials' });
 
       }
 
-     
-        const token = jwt.generateToken(user)
-        console.log("token created " + token )
+      //user found stired in user variable 
+      //generating the jwt  access and refresh tokens
+        const tokens = jwt.generateToken(user)
+        console.log("token created " + tokens )
       res.status(200).json({ 
-   status: 'success', message: 'Login successful',token });
-    } catch (error) {
+   status: 'success', message: 'Login successful',tokens });
+
+         // Save the refresh token in the database
+         const tokenDoc = new Token({
+            userId: user._id,
+            token: tokens.refreshToken
+        });
+        await tokenDoc.save();
+
+    } 
+    //catch if any server error
+    catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Server error' });
     }
