@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    categories: {
+    category: {
         type: String,
         // enum: [
         //    " Recliner sofa Manual,RRR,Motorized",

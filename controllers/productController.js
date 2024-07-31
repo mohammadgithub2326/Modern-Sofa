@@ -29,7 +29,7 @@ exports.addProduct = async (req, res) => {
     }
 };
 exports.updateProduct = async (req, res) => {
-    const { productId, images, productDescription, categories, updatedBy } = req.body;
+    const { productId, images, productDescription, category, updatedBy } = req.body;
 
     try {
         const user = await User.findById(updatedBy);
