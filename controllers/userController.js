@@ -2,6 +2,7 @@ const User = require('../models/user');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
 const jwt = require("../utils/jwt")
+const Token=require("../models/token")
 
 exports.registerUser = async (req, res) => {
     console.log("user controller  entered ")
@@ -57,17 +58,20 @@ const sendAdminNotification = (email) => {
 
 //controller for login
 exports.loginUser = async (req, res) => {
+    console.log("entered login method")
     const { email, password } = req.body;
+    console.log("email and password destructured")
 
         //finding user by email
     try {
+        console.log("getting the user from database")
       const user = await User.findOne({ email });
         
       if (!user) {
+          console.log("user not found")
         return res.status(404).json({ message: 'User not found  please register first' });
-        console.log("usernot found")
       }
-      console.log("user found")
+      console.log("user found" + user)
 
       //matching the password
       const isMatch = await bcrypt.compare(password, user.password);
@@ -78,16 +82,17 @@ exports.loginUser = async (req, res) => {
 
       }
 
-      //user found stired in user variable 
+      //user found stored in user variable 
       //generating the jwt  access and refresh tokens
         const tokens = jwt.generateToken(user)
-        console.log("token created " + tokens )
+        console.log("token created " + tokens.accessToken +" "+tokens.refreshToken )
       res.status(200).json({ 
    status: 'success', message: 'Login successful',tokens });
 
          // Save the refresh token in the database
          const tokenDoc = new Token({
             userId: user._id,
+            userName:user.fname,
             token: tokens.refreshToken
         });
         await tokenDoc.save();
